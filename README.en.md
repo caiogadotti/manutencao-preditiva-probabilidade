@@ -101,10 +101,10 @@ docs/                   README images
 
 ## References
 
-- LEE, J.; BAGHERI, B.; KAO, H.-A. A Cyber-Physical Systems architecture for Industry 4.0-based manufacturing systems. *Manufacturing Letters*, v. 3, p. 18–23, 2015.
-- JARDINE, A. K. S.; LIN, D.; BANJEVIC, D. A review on machinery diagnostics and prognostics implementing condition-based maintenance. *Mechanical Systems and Signal Processing*, v. 20, n. 7, p. 1483–1510, 2006.
-- LEE, J. et al. Prognostics and health management design for rotary machinery systems. *Mechanical Systems and Signal Processing*, v. 42, p. 314–334, 2014.
-- KALMAN, R. E. A new approach to linear filtering and prediction problems. *Journal of Basic Engineering*, v. 82, n. 1, p. 35–45, 1960.
+- LEE, J.; BAGHERI, B.; KAO, H.-A. A Cyber-Physical Systems architecture for Industry 4.0-based manufacturing systems. *Manufacturing Letters*, v. 3, p. 18-23, 2015.
+- JARDINE, A. K. S.; LIN, D.; BANJEVIC, D. A review on machinery diagnostics and prognostics implementing condition-based maintenance. *Mechanical Systems and Signal Processing*, v. 20, n. 7, p. 1483-1510, 2006.
+- LEE, J. et al. Prognostics and health management design for rotary machinery systems. *Mechanical Systems and Signal Processing*, v. 42, p. 314-334, 2014.
+- KALMAN, R. E. A new approach to linear filtering and prediction problems. *Journal of Basic Engineering*, v. 82, n. 1, p. 35-45, 1960.
 - MONTGOMERY, D. C.; RUNGER, G. C. *Applied Statistics and Probability for Engineers*. Wiley.
 
 ---
