@@ -109,4 +109,4 @@ docs/                   README images
 
 ---
 
-Course project for Probability and Statistics, Cyber-Physical Systems Engineering.
+Caio Gadotti · Course project for Probability and Statistics, Cyber-Physical Systems Engineering (ESCF) at PUC-SP.

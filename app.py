@@ -43,7 +43,7 @@ div[data-testid="stSlider"] label p, div[data-testid="stNumberInput"] label p {{
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<div class="hero"><h1>⚙️ Manutenção Preditiva com Probabilidade</h1>
-<p>Engenharia de Sistemas Ciberfísicos · mexa nos controles e compare a fórmula com 100 mil simulações</p></div>""",
+<p>Mexa nos controles e compare a fórmula com 100 mil simulações</p><p style="color:#CBD5E1;font-size:.95rem;margin-top:14px">Caio Gadotti · Projeto da faculdade · ESCF, Engenharia de Sistemas Ciberfísicos · PUC-SP</p></div>""",
             unsafe_allow_html=True)
 
 with st.sidebar:
@@ -58,6 +58,8 @@ O modelo responde quatro perguntas:
 
 **Hipóteses:** máquinas independentes, taxa de falha constante, ruído Normal.""")
     st.caption("Teórico = fórmula da aula · Simulado = sorteios Monte Carlo com NumPy")
+    st.divider()
+    st.markdown("**Caio Gadotti**  \nProjeto da faculdade · ESCF (Engenharia de Sistemas Ciberfísicos), PUC-SP")
 
 
 def explica(formula: str, simbolos: str, quando: str):

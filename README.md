@@ -108,4 +108,4 @@ docs/                   imagens do README
 
 ---
 
-Projeto da disciplina de Probabilidade e Estatística, curso de Engenharia de Sistemas Ciberfísicos.
+Caio Gadotti · Projeto da disciplina de Probabilidade e Estatística, curso de Engenharia de Sistemas Ciberfísicos (ESCF) da PUC-SP.
