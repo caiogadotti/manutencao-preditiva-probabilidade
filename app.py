@@ -89,7 +89,7 @@ with abas[0]:
     st.markdown('''<div class="flow"><span>Máquina</span><i>→</i><span>Sensores de vibração e temperatura</span><i>→</i>
 <span>Rede IoT</span><i>→</i><span class="on">Modelo probabilístico</span><i>→</i><span>Decisão: parar ou seguir</span></div>''',
                 unsafe_allow_html=True)
-    cards = [("1", "Quantas falhas?", "Binomial e Poisson contam falhas por turno e por mês.", "Planejar equipe e peças"),
+    cards = [("1", "Quantas falhas?", "Binomial e Poisson contam falhas em 10 dias e por mês.", "Planejar equipe e peças"),
              ("2", "Quando falha?", "Exponencial e Normal modelam o tempo de vida.", "Definir a hora da troca"),
              ("3", "O sensor está certo?", "Bayes e a distribuição conjunta filtram alarme falso.", "Confirmar antes de parar"),
              ("4", "Quanto confiar no dado?", "Combinação de normais funde dois sensores.", "Reduzir o ruído")]
@@ -105,7 +105,7 @@ with abas[0]:
                 'Os valores teóricos são comparados com 100 mil sorteios Monte Carlo.</div>', unsafe_allow_html=True)
 
 with abas[1]:
-    st.subheader("Falha elétrica (E) ou mecânica (M)")
+    st.subheader("Falha elétrica (E) ou mecânica (M) em 1 mês de operação")
     explica(r"P(E\cup M)=P(E)+P(M)-P(E\cap M)",
             "<b>∪</b> “ou”: pelo menos um · <b>∩</b> “e”: os dois juntos · <b>ᶜ</b> complemento",
             "Chance de “um ou outro” quando os eventos podem ocorrer juntos. A interseção é contada duas vezes, então subtraímos.")
@@ -116,17 +116,17 @@ with abas[1]:
     pem = c3.slider("P(E ∩ M)", 0.0, float(min(pe, pm)), float(min(0.03, pe, pm)), 0.01)
     pu = m.uniao(pe, pm, pem)
     st.latex(rf"P(E\cup M)={pe}+{pm}-{pem}={pu:.3f}")
-    resultado(f"{pu:.0%}", f"de chance de alguma falha · {1-pu:.0%} de seguir sem falha")
+    resultado(f"{pu:.0%}", f"de a máquina ter alguma falha no mês · {1-pu:.0%} de passar o mês sem falha")
 
 with abas[2]:
     st.subheader("O alarme tocou: é falha mesmo?")
-    explica(r"P(F|A)=\frac{P(A|F)\,P(F)}{P(A|F)\,P(F)+P(A|\bar F)\,P(\bar F)}",
-            "<b>P(F)</b> falha antes de olhar o sensor · <b>P(A|F)</b> sensibilidade · <b>P(A|F̄)</b> falso positivo",
+    explica(r"P(F|A)=\frac{P(A|F)\,P(F)}{P(A|F)\,P(F)+P(A|F^c)\,P(F^c)}",
+            "<b>P(F)</b> falha antes de olhar o sensor · <b>P(A|F)</b> sensibilidade · <b>P(A|Fᶜ)</b> falso positivo (Fᶜ = sem falha)",
             "Sabemos P(efeito | causa) e queremos P(causa | efeito). Se a falha é rara, os alarmes falsos dominam.")
     c1, c2, c3 = st.columns(3)
-    prev = c1.slider("P(falha)", 0.001, 0.30, 0.02, 0.001, format="%.3f")
+    prev = c1.slider("P(defeito) por inspeção diária", 0.001, 0.30, 0.02, 0.001, format="%.3f")
     sens = c2.slider("Sensibilidade P(A|F)", 0.5, 1.0, 0.95, 0.01)
-    fp = c3.slider("Falso positivo P(A|F̄)", 0.0, 0.3, 0.05, 0.01)
+    fp = c3.slider("Falso positivo P(A|Fᶜ)", 0.0, 0.3, 0.05, 0.01)
     r = m.bayes_alarme(prev, sens, fp)
     sim = m.simular_bayes(prev, sens, fp)
     a, b, c = st.columns(3)
@@ -136,13 +136,13 @@ with abas[2]:
     resultado(f"{r['p_falha_dado_alarme']:.0%}", "dos alarmes são falha real. Dica: aumente P(falha) e veja o número subir.")
 
 with abas[3]:
-    st.subheader("Quantas máquinas falham no turno?")
+    st.subheader("Quantas máquinas falham em 10 dias?")
     explica(r"P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}",
             "<b>n</b> máquinas · <b>k</b> quantas falham · <b>p</b> chance de cada uma · E[X] = np",
             "n fixo, tentativas independentes, só dois resultados e p igual para todas.")
     c1, c2 = st.columns(2)
     n = c1.slider("Nº de máquinas (n)", 1, 50, 20)
-    p = c2.slider("P(falha de cada) p", 0.01, 0.5, 0.05, 0.01)
+    p = c2.slider("P(cada uma falhar em 10 dias) p", 0.01, 0.5, 0.05, 0.01)
     k, pmf, sim = m.binomial(n, p)
     g, ax = fig()
     ax.bar(k, pmf, alpha=.8, label="Teórico")
@@ -152,14 +152,14 @@ with abas[3]:
     c1.pyplot(g)
     with c2:
         st.metric("E[X] = n·p", f"{n*p:.2f}")
-        resultado(f"{1-stats.binom.cdf(1,n,p):.0%}", "de ter 2 ou mais máquinas paradas")
+        resultado(f"{1-stats.binom.cdf(1,n,p):.0%}", "de ter 2 ou mais máquinas paradas em 10 dias")
 
 with abas[4]:
     st.subheader("Quantas falhas no mês?")
     explica(r"P(X=k)=\frac{e^{-\lambda}\lambda^k}{k!}",
             "<b>λ</b> média de falhas no período · E[X] = Var[X] = λ",
             "Eventos raros e independentes num intervalo de tempo. É o limite da Binomial com n grande e p pequeno.")
-    lam = st.slider("λ (falhas/mês)", 0.5, 15.0, 3.0, 0.5)
+    lam = st.slider("λ (falhas da linha por mês)", 0.5, 15.0, 3.0, 0.5)
     k, pmf, sim = m.poisson(lam)
     g, ax = fig()
     ax.bar(k, pmf, alpha=.8, label="Teórico")
@@ -172,7 +172,7 @@ with abas[4]:
         resultado(f"{1-stats.poisson.cdf(5,lam):.0%}", "de um mês crítico (6 falhas ou mais)")
 
 with abas[5]:
-    st.subheader("Vibração (X) e temperatura (Y) andam juntas?")
+    st.subheader("Vibração (X) e temperatura (Y) andam juntas? (leitura diária)")
     explica(r"P(X=x)=\sum_y P(x,y)\qquad \text{Cov}=E[XY]-E[X]E[Y]",
             "<b>P(x,y)</b> conjunta · <b>P(x)</b> marginal (soma da linha) · independentes se P(x,y)=P(x)P(y)",
             "Dois sensores na mesma máquina: um informa sobre o outro? Se sim, dá para confirmar um alarme com o outro.")
@@ -196,12 +196,12 @@ with abas[5]:
         resultado(f"{r['p_y1_dado_x1']:.0%}", "de temperatura alta quando a vibração está alta")
 
 with abas[6]:
-    st.subheader("Tempo até a falha")
+    st.subheader("Tempo até a falha do inversor")
     explica(r"f(t)=\lambda e^{-\lambda t}\qquad P(T\le t)=1-e^{-\lambda t}",
             "<b>λ</b> = 1/MTBF · <b>MTBF</b> tempo médio entre falhas · sem memória: P(T>s+t | T>s) = P(T>t)",
             "Falhas aleatórias, sem desgaste. Uma peça usada tem o mesmo risco de uma nova.")
     c1, c2, c3 = st.columns(3)
-    mtbf = c1.slider("MTBF (h)", 100, 5000, 1000, 100)
+    mtbf = c1.slider("MTBF do inversor (h)", 100, 5000, 1000, 100)
     t = c2.slider("Janela t (h)", 10, 3000, 500, 10)
     s = c3.slider("Já funcionou s (h)", 0, 3000, 800, 50)
     r = m.exponencial(mtbf, t, s)
@@ -225,7 +225,7 @@ with abas[7]:
     c1, c2, c3 = st.columns(3)
     mu = c1.slider("μ (h)", 1000, 10000, 5000, 100)
     sd = c2.slider("σ (h)", 100, 2000, 600, 50)
-    risco = c3.slider("Risco aceito na troca", 0.001, 0.2, 0.01, 0.001, format="%.3f")
+    risco = c3.slider("% de rolamentos que quebram antes da troca", 0.001, 0.2, 0.01, 0.001, format="%.3f")
     a, b = st.slider("Intervalo [a, b]", 0, 15000, (4000, 6000), 100)
     r = m.normal_vida(mu, sd, a, b)
     corte = stats.norm.ppf(risco, mu, sd)
@@ -245,7 +245,7 @@ with abas[8]:
             "<b>a, b</b> limites · <b>c, d</b> trecho de interesse · E[X] = (a+b)/2",
             "Só sabemos o mínimo e o máximo, sem valor preferido.")
     c1, c2 = st.columns(2)
-    a_, b_ = c1.slider("Parada entre (min)", 0, 120, (0, 60))
+    a_, b_ = c1.slider("Parada para ajuste ou limpeza entre (min)", 0, 120, (0, 60))
     c_, d_ = c2.slider("Trecho de interesse (min)", 0, 120, (20, 35))
     pu = m.uniforme(a_, b_, c_, d_) if b_ > a_ else 0
     resultado(f"{pu:.0%}", f"das paradas duram entre {c_} e {d_} min · média {(a_+b_)/2:.0f} min")
@@ -268,7 +268,7 @@ with abas[9]:
         ax.legend(); st.pyplot(g)
         resultado(f"{sf:.2f} °C", "de erro após a fusão")
     with col2:
-        st.markdown("**Soma das etapas da manutenção**")
+        st.markdown("**Manutenção em 3 etapas: desmontar, trocar e testar**")
         mus = [st.number_input(f"μ etapa {i+1} (min)", 1.0, 200.0, v) for i, v in enumerate([30.0, 45.0, 20.0])]
         sds = [st.number_input(f"σ etapa {i+1}", 0.1, 50.0, v) for i, v in enumerate([5.0, 8.0, 4.0])]
         lim = st.slider("Prazo (min)", 60, 150, 105)

@@ -57,12 +57,12 @@ would come from the line's history.
 
 | Tab | Formula | Result with default values |
 |---|---|---|
-| Sets | P(E ∪ M) = P(E) + P(M) − P(E ∩ M) | 17% chance of an electrical or mechanical failure |
+| Sets | P(E ∪ M) = P(E) + P(M) − P(E ∩ M) | 17% chance of an electrical or mechanical failure in 1 month |
 | Bayes | P(F\|A) = P(A\|F)·P(F) / P(A) | only **28%** of alarms are real failures |
-| Binomial | C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ | 26% chance of 2 or more of 20 machines down |
+| Binomial | C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ | 26% chance of 2 or more of 20 machines down within 10 days |
 | Poisson | e^(−λ)·λᵏ / k! | 8% chance of a month with 6 or more failures |
 | Joint | P(x) = Σ P(x,y), Cov = E[XY] − E[X]E[Y] | high vibration comes with high temperature 60% of the time |
-| Exponential | P(T ≤ t) = 1 − e^(−λt) | 39% chance of failing in the next 500 h |
+| Exponential | P(T ≤ t) = 1 − e^(−λt) | 39% chance the inverter fails in the next 500 h |
 | Normal | Z = (X − μ)/σ | preventive replacement at 3604 h with 1% risk |
 | Uniform | (d − c)/(b − a) | 25% of stops last between 20 and 35 min |
 | Combination of normals | aX₁ + bX₂ ~ N(aμ₁ + bμ₂, a²σ₁² + b²σ₂²) | two sensors together err only 0.89 °C |

@@ -56,12 +56,12 @@ numa fábrica real viriam do histórico da linha.
 
 | Aba | Fórmula | Resultado com os valores padrão |
 |---|---|---|
-| Conjuntos | P(E ∪ M) = P(E) + P(M) − P(E ∩ M) | 17% de chance de falha elétrica ou mecânica |
+| Conjuntos | P(E ∪ M) = P(E) + P(M) − P(E ∩ M) | 17% de falha elétrica ou mecânica em 1 mês |
 | Bayes | P(F\|A) = P(A\|F)·P(F) / P(A) | só **28%** dos alarmes são falha real |
-| Binomial | C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ | 26% de ter 2 ou mais máquinas paradas entre 20 |
+| Binomial | C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ | 26% de 2 ou mais das 20 máquinas pararem em 10 dias |
 | Poisson | e^(−λ)·λᵏ / k! | 8% de um mês com 6 falhas ou mais |
 | Bidimensional | P(x) = Σ P(x,y), Cov = E[XY] − E[X]E[Y] | vibração alta leva a temperatura alta em 60% dos casos |
-| Exponencial | P(T ≤ t) = 1 − e^(−λt) | 39% de falhar nas próximas 500 h |
+| Exponencial | P(T ≤ t) = 1 − e^(−λt) | 39% de o inversor falhar nas próximas 500 h |
 | Normal | Z = (X − μ)/σ | troca preventiva em 3604 h com 1% de risco |
 | Uniforme | (d − c)/(b − a) | 25% das paradas duram entre 20 e 35 min |
 | Combinação de normais | aX₁ + bX₂ ~ N(aμ₁ + bμ₂, a²σ₁² + b²σ₂²) | dois sensores juntos erram só 0,89 °C |
